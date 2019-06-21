@@ -16,6 +16,11 @@ command_exists() {
 }
 
 #=====================================================
+#                                             Homebrew
+#                                             ========
+alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
+
+#=====================================================
 #                                                  Git
 #                                                  ===
 if ! command_exists ghq; then
