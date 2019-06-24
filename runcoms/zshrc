@@ -85,6 +85,20 @@ fi
 if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then . ~/google-cloud-sdk/path.zsh.inc; fi
 # The next line enables shell command completion for gcloud.
 if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then . ~/google-cloud-sdk/completion.zsh.inc; fi
+alias -g kP='`kubectl get pod | tail -n +2 | peco | awk '\''{print $1}'\''`'
+alias kbe="kubectl exec"
+alias kba="kubectl apply -f"
+alias kbl="kubectl logs"
+
+#=====================================================
+#                                               Docker
+#                                               ======
+if ! command_exists docker; then
+    echo "intsall docker"
+    brew install docker
+fi
+alias -g dP='`docker ps -a | tail -n +2 | peco | awk '\''{print $1}'\''`'
+alias -g dI='`docker images | tail -n +2 | peco | awk '\''{print $3}'\''`'
 
 #=====================================================
 #                                        Editor config
@@ -94,7 +108,7 @@ export VISUAL='vim'
 export PAGER='less'
 
 #=====================================================
-#                                         Alias config
+#                                         Suffix Alias
 #                                         ============
 alias -s py=python
 function extract() {
