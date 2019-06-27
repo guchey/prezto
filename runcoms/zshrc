@@ -113,7 +113,7 @@ fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
 alias dkx='docker stop dP'
-alias dkrm='docker remove -f dP'
+alias dkrm='docker rm -f dP'
 alias dke='docker exec -it dP'
 
 #=========================================================
