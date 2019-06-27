@@ -15,14 +15,19 @@ command_exists() {
 	command -v "$@" >/dev/null 2>&1
 }
 
-#=====================================================
-#                                             Homebrew
-#                                             ========
+#==========================================================
+#                  Your local commandline tool definication
+#                  ========================================
+export PATH=$PATH:~/bin
+
+#==========================================================
+#                                                  Homebrew
+#                                                  ========
 alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
 
-#=====================================================
-#                                                  Git
-#                                                  ===
+#==========================================================
+#                                                       Git
+#                                                       ===
 if ! command_exists ghq; then
     echo "intsall ghq"
     brew install ghq
@@ -38,9 +43,9 @@ fi
 alias gi='cd $(ghq root)/$(ghq list | peco)'
 alias github='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
-#=====================================================
-#                                                 Node
-#                                                 ====
+#==========================================================
+#                                                      Node
+#                                                      ====
 if ! command_exists nodebrew; then
     echo "intsall nodebrew"
     brew install nodebrew
@@ -55,9 +60,9 @@ if ! command_exists yarn; then
     echo "intsall yarn"
     npm install -g yarn 
 fi
-#=====================================================
-#                                               Python
-#                                               ======
+#==========================================================
+#                                                    Python
+#                                                    ======
 if ! command_exists pyenv; then;
     echo "intsall pyenv"
     brew install pyenv
@@ -74,9 +79,9 @@ if ! command_exists pipenv; then
 fi
 export PIPENV_VENV_IN_PROJECT=1
 
-#=====================================================
-#                                     Google cloud SDK
-#                                     ================
+#==========================================================
+#                                          Google cloud SDK
+#                                          ================
 if [ ! -f ~/google-cloud-sdk/path.zsh.inc ]; then
     echo "intsall google-cloud-sdk"
     curl https://sdk.cloud.google.com | zsh
@@ -85,31 +90,48 @@ fi
 if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then . ~/google-cloud-sdk/path.zsh.inc; fi
 # The next line enables shell command completion for gcloud.
 if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then . ~/google-cloud-sdk/completion.zsh.inc; fi
-alias -g kP='`kubectl get pod | tail -n +2 | peco | awk '\''{print $1}'\''`'
-alias kbe="kubectl exec"
-alias kba="kubectl apply -f"
-alias kbl="kubectl logs"
+PYTHONPATH=$PYTHONPATH:~/google-cloud-sdk/platform/google_appengine
+PYTHONPATH=$PYTHONPATH:~/google-cloud-sdk/platform/google_appengine/lib
+PYTHONPATH=$PYTHONPATH:~/google-cloud-sdk/platform/google_appengine/lib/yaml
+export PYTHONPATH
 
-#=====================================================
-#                                               Docker
-#                                               ======
+#==========================================================
+#                                                Kubernetes
+#                                                ==========
+alias -g kP='`kubectl get pod | tail -n +2 | peco | awk '\''{print $1}'\''`'
+alias kbe="kubectl exec -it kP"
+alias kbap="kubectl apply -f"
+alias kbl="kubectl logs -f kP"
+
+#==========================================================
+#                                                    Docker
+#                                                    ======
 if ! command_exists docker; then
     echo "intsall docker"
     brew install docker
 fi
 alias -g dP='`docker ps -a | tail -n +2 | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | tail -n +2 | peco | awk '\''{print $3}'\''`'
+alias dkx='docker stop dP'
+alias dkrm='docker remove -f dP'
+alias dke='docker exec -it dP'
 
-#=====================================================
-#                                        Editor config
-#                                        =============
+#=========================================================
+#                                            Editor config
+#                                            =============
 export EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
 
-#=====================================================
-#                                         Suffix Alias
-#                                         ============
+#=========================================================
+#                                                Pipe util
+#                                                =========
+alias rmheader='awk '\''NR>1{print $0}'\'
+alias upper="tr '[a-z]' '[A-Z]'"
+
+#=========================================================
+#                                             Suffix Alias
+#                                             ============
 alias -s py=python
 function extract() {
   case $1 in
