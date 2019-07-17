@@ -39,6 +39,14 @@ alias gi='cd $(ghq root)/$(ghq list | peco)'
 alias github='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 #=====================================================
+#                                                   Go
+#                                                   ==
+if ! command_exists go; then
+    echo "intsall go"
+    brew install go
+fi
+
+#=====================================================
 #                                                 Node
 #                                                 ====
 if ! command_exists nodebrew; then
