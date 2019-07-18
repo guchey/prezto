@@ -113,8 +113,19 @@ fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
 alias dkx='docker stop dP'
+alias dkl='docker logs dP'
 alias dkrm='docker rm -f dP'
 alias dke='docker exec -it dP'
+
+#==========================================================
+#                                                Color diff
+#                                                ==========
+if ! command_exists colordiff; then
+    echo "intsall colordiff"
+    brew install colordiff
+fi
+alias diff='colordiff -u'
+alias diffy='colordiff -y --suppress-common-lines'
 
 #=========================================================
 #                                            Editor config
