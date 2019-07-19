@@ -143,6 +143,43 @@ export VISUAL='vim'
 export PAGER='less'
 
 #=========================================================
+#                                               virtualbox
+#                                               ==========
+# https://shoji014.com/virtualbox-error/
+#if ! command_exists virtualbox; then
+#    echo "intsall virtualbox"
+#    brew cask install virtualbox
+#fi
+
+#=========================================================
+#                                                  vagrant
+#                                                  =======
+if ! command_exists vagrant; then
+    echo "intsall vagrant"
+    brew cask install vagrant
+fi
+
+
+#=========================================================
+#                                                  ansible
+#                                                  =======
+if ! command_exists ansible; then
+    echo "intsall ansible"
+    brew install ansible
+fi
+
+if [ ! -f /etc/ansible/hosts ]; then
+    cat <<EOF | sudo tee /etc/ansible/hosts > /dev/null
+[localhost]
+127.0.0.1 ansible_connection=local
+EOF
+fi
+
+if ! command_exists sshpass; then
+    brew install http://git.io/sshpass.rb
+fi
+
+#=========================================================
 #                                                Pipe util
 #                                                =========
 alias rmheader='awk '\''NR>1{print $0}'\'
