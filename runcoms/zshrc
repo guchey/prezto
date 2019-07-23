@@ -135,6 +135,14 @@ fi
 alias diff='colordiff -u'
 alias diffy='colordiff -y --suppress-common-lines'
 
+#==========================================================
+#                                                Color diff
+#                                                ==========
+if ! command_exists tree; then
+    echo "intsall tree"
+    brew install tree
+fi
+
 #=========================================================
 #                                            Editor config
 #                                            =============
