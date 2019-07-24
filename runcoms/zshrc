@@ -40,7 +40,7 @@ if ! command_exists peco; then
     echo "intsall peco"
     brew install peco
 fi
-alias gi='cd $(ghq root)/$(ghq list | peco)'
+alias gitd='cd $(ghq root)/$(ghq list | peco)'
 alias github='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 #=====================================================
@@ -136,41 +136,41 @@ alias diff='colordiff -u'
 alias diffy='colordiff -y --suppress-common-lines'
 
 #==========================================================
-#                                                Color diff
-#                                                ==========
+#                                                      tree
+#                                                      ====
 if ! command_exists tree; then
     echo "intsall tree"
     brew install tree
 fi
 
-#=========================================================
-#                                            Editor config
-#                                            =============
+#==========================================================
+#                                             Editor config
+#                                             =============
 export EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
 
-#=========================================================
-#                                               virtualbox
-#                                               ==========
+#==========================================================
+#                                                virtualbox
+#                                                ==========
 # https://shoji014.com/virtualbox-error/
 #if ! command_exists virtualbox; then
 #    echo "intsall virtualbox"
 #    brew cask install virtualbox
 #fi
 
-#=========================================================
-#                                                  vagrant
-#                                                  =======
+#==========================================================
+#                                                   vagrant
+#                                                   =======
 if ! command_exists vagrant; then
     echo "intsall vagrant"
     brew cask install vagrant
 fi
 
 
-#=========================================================
-#                                                  ansible
-#                                                  =======
+#==========================================================
+#                                                   ansible
+#                                                   =======
 if ! command_exists ansible; then
     echo "intsall ansible"
     brew install ansible
@@ -187,9 +187,9 @@ if ! command_exists sshpass; then
     brew install http://git.io/sshpass.rb
 fi
 
-#=========================================================
-#                                                Pipe util
-#                                                =========
+#==========================================================
+#                                                 Pipe util
+#                                                 =========
 alias rmheader='awk '\''NR>1{print $0}'\'
 alias upper="tr '[a-z]' '[A-Z]'"
 alias cl1='awk '\''{print $1}'\'''
@@ -199,9 +199,9 @@ alias cl4='awk '\''{print $4}'\'''
 alias cl5='awk '\''{print $5}'\'''
 alias cl6='awk '\''{print $6}'\'''
 
-#=========================================================
-#                                             Suffix Alias
-#                                             ============
+#==========================================================
+#                                              Suffix Alias
+#                                              ============
 alias -s py=python
 function extract() {
   case $1 in
