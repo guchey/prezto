@@ -169,6 +169,7 @@ if ! command_exists ansible; then
 fi
 
 if [ ! -f /etc/ansible/hosts ]; then
+    sudo mkdir -p /etc/ansible
     cat <<EOF | sudo tee /etc/ansible/hosts > /dev/null
 [localhost]
 127.0.0.1 ansible_connection=local
