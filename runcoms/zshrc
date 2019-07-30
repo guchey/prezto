@@ -143,6 +143,11 @@ if ! command_exists tree; then
     brew install tree
 fi
 
+function setTitle() {
+    echo -e "\033];$1\007"
+}
+alias title=setTitle
+
 #==========================================================
 #                                             Editor config
 #                                             =============
