@@ -124,7 +124,7 @@ if ! command_exists docker; then
 fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
-alias dkx='docker stop dP'
+alias dkx='docker stop `docker ps -a | rmheader | grep -v Exited | peco | awk '\''{print $1}'\''`'
 alias dkl='docker logs dP'
 alias dkrm='docker rm -f dP'
 alias dke='docker exec -it dP'
@@ -146,6 +146,11 @@ if ! command_exists tree; then
     echo "intsall tree"
     brew install tree
 fi
+
+function setTitle() {
+    echo -e "\033];$1\007"
+}
+alias title=setTitle
 
 #==========================================================
 #                                             Editor config
