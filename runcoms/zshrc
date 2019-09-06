@@ -98,10 +98,6 @@ fi
 if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then . ~/google-cloud-sdk/path.zsh.inc; fi
 # The next line enables shell command completion for gcloud.
 if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then . ~/google-cloud-sdk/completion.zsh.inc; fi
-PYTHONPATH=$PYTHONPATH:~/google-cloud-sdk/platform/google_appengine
-PYTHONPATH=$PYTHONPATH:~/google-cloud-sdk/platform/google_appengine/lib
-PYTHONPATH=$PYTHONPATH:~/google-cloud-sdk/platform/google_appengine/lib/yaml
-export PYTHONPATH
 
 #==========================================================
 #                                                Kubernetes
@@ -124,6 +120,7 @@ alias dkx='docker stop `docker ps -a | rmheader | grep -v Exited | peco | awk '\
 alias dkl='docker logs dP'
 alias dkrm='docker rm -f dP'
 alias dke='docker exec -it dP'
+alias dkprn='docker system prune --all --volumes'
 
 #==========================================================
 #                                                Color diff
