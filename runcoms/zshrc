@@ -24,6 +24,7 @@ export PATH=$PATH:~/bin
 #                                                  Homebrew
 #                                                  ========
 alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
+export PATH="/usr/local/sbin:$PATH"
 
 #==========================================================
 #                                                       Git
@@ -118,6 +119,10 @@ if ! command_exists docker; then
     echo "intsall docker"
     brew install docker
 fi
+if ! command_exists dockle; then
+    echo "intsall dockle"
+    brew install goodwithtech/dockle/dockle
+fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
 alias dkx='docker stop `docker ps -a | rmheader | grep -v Exited | peco | awk '\''{print $1}'\''`'
@@ -148,6 +153,15 @@ function setTitle() {
     echo -e "\033];$1\007"
 }
 alias title=setTitle
+
+#==========================================================
+#                                                    groovy
+#                                                    ======
+if ! command_exists groovy; then
+    echo "intsall groovy"
+    brew install groovy
+fi
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 #==========================================================
 #                                             Editor config
