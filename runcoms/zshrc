@@ -180,8 +180,18 @@ function setTitle() {
 alias title=setTitle
 
 #==========================================================
-#                                                    groovy
-#                                                    ======
+#                                                      java
+#                                                      ====
+#---------------------------------------------
+#                                         java
+#                                         ----
+if ! command_exists java; then
+    echo "intsall jdk"
+    brew cask install adoptopenjdk
+fi
+#---------------------------------------------
+#                                       groovy
+#                                       ------
 if ! command_exists groovy; then
     echo "intsall groovy"
     brew install groovy
