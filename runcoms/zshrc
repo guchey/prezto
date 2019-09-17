@@ -21,6 +21,11 @@ command_exists() {
 export PATH=$PATH:~/bin
 
 #==========================================================
+#                                         zsh configuration
+#                                         =================
+bindkey -v
+
+#==========================================================
 #                                                  Homebrew
 #                                                  ========
 alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
