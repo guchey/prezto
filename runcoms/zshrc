@@ -24,6 +24,7 @@ export PATH=$PATH:~/bin
 #                                         zsh configuration
 #                                         =================
 bindkey -v
+autoload -Uz zmv
 
 #==========================================================
 #                                                  Homebrew
@@ -50,7 +51,7 @@ if ! command_exists tig; then
     echo "intsall tig"
     brew install tig
 fi
-alias gitd='cd $(ghq root)/$(ghq list | peco)'
+alias gitd='cd $(ghq root)/$(ghq list | sort | peco)'
 alias github='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 #==========================================================
