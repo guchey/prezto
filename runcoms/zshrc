@@ -110,6 +110,16 @@ if ! command_exists pipenv; then
 fi
 export PIPENV_VENV_IN_PROJECT=1
 
+
+#==========================================================
+#                                                      Rust
+#                                                      ====
+export PATH="~/.cargo/bin:$PATH"
+if ! command_exists rustc; then
+    echo "intsall rust"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+
 #==========================================================
 #                                              cookiecutter
 #                                              ============
