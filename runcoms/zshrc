@@ -160,9 +160,11 @@ if ! command_exists dockle; then
 fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
+alias -g dV='`docker volume ls | rmheader | peco | awk '\''{print $2}'\''`'
 alias dkx='docker stop `docker ps -a | rmheader | grep -v Exited | peco | awk '\''{print $1}'\''`'
 alias dkl='docker logs dP'
 alias dkrm='docker rm -f dP'
+alias dkvrm='docker volume rm dV'
 alias dke='docker exec -it dP'
 alias dkprn='docker system prune --all --volumes'
 
