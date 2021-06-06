@@ -7,12 +7,12 @@
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
 # Customize to your needs...
 command_exists() {
-	command -v "$@" >/dev/null 2>&1
+    command -v "$@" >/dev/null 2>&1
 }
 
 #==========================================================
@@ -29,6 +29,9 @@ autoload -Uz zmv
 #==========================================================
 #                                                  Homebrew
 #                                                  ========
+if ! command_exists brew; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
@@ -56,6 +59,15 @@ alias gitd='cd $(ghq root)/$(ghq list | sort | peco)'
 alias github='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 #==========================================================
+#                                                    anyenv
+#                                                    ======
+if ! command_exists anyenv; then
+    echo "intsall anyenv"
+    brew install anyenv
+fi
+eval "$(anyenv init -)"
+
+#==========================================================
 #                                                        Go
 #                                                        ==
 if ! command_exists go; then
@@ -67,40 +79,38 @@ fi
 #                                                      Node
 #                                                      ====
 #---------------------------------------------
-#                                     nodebrew
-#                                     --------
-if ! command_exists nodebrew; then
-    echo "intsall nodebrew"
-    brew install nodebrew
-    nodebrew install-binary latest
-    nodebrew use latest
+#                                       nodenv
+#                                       ------
+if ! command_exists nodenv; then
+    echo "intsall nodenv"
+    anyenv install nodenv
 fi
-NODEBREW_HOME=/usr/local/var/nodebrew/current
-export NODEBREW_HOME
-export NODEBREW_ROOT=/usr/local/var/nodebrew
-export PATH=$PATH:$NODEBREW_HOME/bin
+if ! command_exists node; then
+    nodenv install 16.1.0
+fi
+nodenv global 16.1.0
+
 #---------------------------------------------
 #                                         yarn
 #                                         ----
 if ! command_exists yarn; then
     echo "intsall yarn"
-    npm install -g yarn 
+    npm install -g yarn
 fi
+
 #==========================================================
 #                                                    Python
 #                                                    ======
 #---------------------------------------------
 #                                        pyenv
 #                                        -----
-if ! command_exists pyenv; then;
+if ! command_exists pyenv; then
     echo "intsall pyenv"
-    brew install pyenv
+    anyenv install pyenv
     pyenv install -v 2.7.16
-    pyenv install -v 3.7.3
+    pyenv install -v 3.7.5
 fi
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+
 pyenv global 2.7.16 3.7.5
 pyenv global 3.7.5
 #---------------------------------------------
@@ -112,7 +122,6 @@ if ! command_exists pipenv; then
 fi
 export PIPENV_VENV_IN_PROJECT=1
 
-
 #==========================================================
 #                                                      Rust
 #                                                      ====
@@ -122,9 +131,22 @@ if ! command_exists rustc; then
 fi
 
 #==========================================================
+#                                                      Ruby
+#                                                      ====
+#---------------------------------------------
+#                                        rbenv
+#                                        -----
+if ! command_exists rbenv; then
+    echo "intsall rbenv"
+    anyenv install rbenv
+    rbenv install 2.5.8
+fi
+rbenv global 2.5.8
+
+#==========================================================
 #                                              cookiecutter
 #                                              ============
-if ! command_exists cookiecutter; then;
+if ! command_exists cookiecutter; then
     echo "intsall cookiecutter"
     brew install cookiecutter
 fi
@@ -135,13 +157,9 @@ fi
 if [ ! -f ~/google-cloud-sdk/path.zsh.inc ]; then
     echo "intsall google-cloud-sdk"
     curl https://sdk.cloud.google.com | zsh
-fi
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then . ~/google-cloud-sdk/path.zsh.inc; fi
-# The next line enables shell command completion for gcloud.
+fi # The next line enables shell command completion for gcloud.
 if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then . ~/google-cloud-sdk/completion.zsh.inc; fi
-export CLOUDSDK_PYTHON=~/.pyenv/shims/python3
-
+export CLOUDSDK_PYTHON=~/.anyenv/envs/pyenv/shims/python3
 
 #==========================================================
 #                                                Kubernetes
@@ -160,7 +178,7 @@ if ! command_exists docker; then
 fi
 if ! command_exists dockle; then
     echo "intsall dockle"
-    brew install goodwithtech/dockle/dockle
+    brew install goodwithtech/r/dockle
 fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
@@ -203,8 +221,13 @@ alias title=setTitle
 #                                         ----
 if ! command_exists java; then
     echo "intsall jdk"
-    brew cask install adoptopenjdk
+    brew install openjdk
 fi
+# if [ ! -f /Library/Java/JavaVirtualMachines/openjdk.jdk ]; then
+#     echo "Create a link to jdk. Please enter your password."
+#     sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+# fi
+export JAVA_HOME=`/usr/libexec/java_home -v 15`
 #---------------------------------------------
 #                                       groovy
 #                                       ------
@@ -235,9 +258,8 @@ export PAGER='less'
 #                                                   =======
 if ! command_exists vagrant; then
     echo "intsall vagrant"
-    brew cask install vagrant
+    brew install vagrant --cask
 fi
-
 
 #==========================================================
 #                                                   ansible
@@ -249,21 +271,22 @@ fi
 
 if [ ! -f /etc/ansible/hosts ]; then
     sudo mkdir -p /etc/ansible
-    cat <<EOF | sudo tee /etc/ansible/hosts > /dev/null
+    cat <<EOF | sudo tee /etc/ansible/hosts >/dev/null
 [localhost]
 127.0.0.1 ansible_connection=local
 EOF
 fi
 
-if ! command_exists sshpass; then
-    brew install http://git.io/sshpass.rb
-fi
+# if ! command_exists sshpass; then
+#     brew install http://git.io/sshpass.rb
+# fi
 
 #==========================================================
 #                                                 Pipe util
 #                                                 =========
 alias rmheader='awk '\''NR>1{print $0}'\'
 alias upper="tr '[a-z]' '[A-Z]'"
+alias lower="tr '[A-Z]' '[a-z]'"
 alias cl1='awk '\''{print $1}'\'''
 alias cl2='awk '\''{print $2}'\'''
 alias cl3='awk '\''{print $3}'\'''
@@ -276,18 +299,20 @@ alias cl6='awk '\''{print $6}'\'''
 #                                              ============
 alias -s py=python
 function extract() {
-  case $1 in
-    *.tar.gz|*.tgz) tar xzvf $1;;
-    *.tar.xz) tar Jxvf $1;;
-    *.zip) unzip $1;;
-    *.lzh) lha e $1;;
-    *.tar.bz2|*.tbz) tar xjvf $1;;
-    *.tar.Z) tar zxvf $1;;
-    *.gz) gzip -d $1;;
-    *.bz2) bzip2 -dc $1;;
-    *.Z) uncompress $1;;
-    *.tar) tar xvf $1;;
-    *.arj) unarj $1;;
-esac
+    case $1 in
+    *.tar.gz | *.tgz) tar xzvf $1 ;;
+    *.tar.xz) tar Jxvf $1 ;;
+    *.zip) unzip $1 ;;
+    *.lzh) lha e $1 ;;
+    *.tar.bz2 | *.tbz) tar xjvf $1 ;;
+    *.tar.Z) tar zxvf $1 ;;
+    *.gz) gzip -d $1 ;;
+    *.bz2) bzip2 -dc $1 ;;
+    *.Z) uncompress $1 ;;
+    *.tar) tar xvf $1 ;;
+    *.arj) unarj $1 ;;
+    esac
 }
 alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
+
+source "${ZDOTDIR:-$HOME}/.zprezto/runcoms/.env"
