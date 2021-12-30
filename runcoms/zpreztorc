@@ -38,8 +38,12 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
+<<<<<<< HEAD
   'git' \
   'docker' \
+=======
+  'history-substring-search' \
+>>>>>>> ecaed1cfa7591d2304d7eb5d69b42b54961a7145
   'prompt'
 
 #
@@ -53,7 +57,7 @@ zstyle ':prezto:load' pmodule \
 # Completions
 #
 
-# Set the entries to ignore in static */etc/hosts* for host completion.
+# Set the entries to ignore in static '/etc/hosts' for host completion.
 # zstyle ':prezto:module:completion:*:hosts' etc-host-ignores \
 #   '0.0.0.0' '127.0.0.1'
 
