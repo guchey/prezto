@@ -32,48 +32,22 @@ autoload -Uz zmv
 if ! command_exists brew; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
+alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin brew"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
 #==========================================================
 #                                                       Git
 #                                                       ===
-if ! command_exists ghq; then
-    echo "intsall ghq"
-    brew install ghq
-fi
-if ! command_exists hub; then
-    echo "intsall hub"
-    brew install hub
-fi
-if ! command_exists peco; then
-    echo "intsall peco"
-    brew install peco
-fi
-if ! command_exists tig; then
-    echo "intsall tig"
-    brew install tig
-fi
 alias gitd='cd $(ghq root)/$(ghq list | sort | peco)'
 alias github='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 #==========================================================
 #                                                    anyenv
 #                                                    ======
-if ! command_exists anyenv; then
-    echo "intsall anyenv"
-    brew install anyenv
-fi
 eval "$(anyenv init -)"
-
-#==========================================================
-#                                                        Go
-#                                                        ==
-if ! command_exists go; then
-    echo "intsall go"
-    brew install go
-fi
+ANYENV_ROOT=/usr/local/anyenv
+#  (exec $SHELL -l)
 
 #==========================================================
 #                                                      Node
@@ -81,13 +55,6 @@ fi
 #---------------------------------------------
 #                                       nodenv
 #                                       ------
-if ! command_exists nodenv; then
-    echo "intsall nodenv"
-    anyenv install nodenv
-fi
-if ! command_exists node; then
-    nodenv install 16.1.0
-fi
 nodenv global 16.1.0
 
 #---------------------------------------------
@@ -104,15 +71,8 @@ fi
 #---------------------------------------------
 #                                        pyenv
 #                                        -----
-if ! command_exists pyenv; then
-    echo "intsall pyenv"
-    anyenv install pyenv
-    pyenv install -v 2.7.16
-    pyenv install -v 3.7.5
-fi
+pyenv global 3.10.2
 
-pyenv global 2.7.16 3.7.5
-pyenv global 3.7.5
 #---------------------------------------------
 #                                       pipenv
 #                                       ------
@@ -136,20 +96,8 @@ fi
 #---------------------------------------------
 #                                        rbenv
 #                                        -----
-if ! command_exists rbenv; then
-    echo "intsall rbenv"
-    anyenv install rbenv
-    rbenv install 2.5.8
-fi
-rbenv global 2.5.8
+rbenv global 2.6.9  
 
-#==========================================================
-#                                              cookiecutter
-#                                              ============
-if ! command_exists cookiecutter; then
-    echo "intsall cookiecutter"
-    brew install cookiecutter
-fi
 
 #==========================================================
 #                                          Google cloud SDK
@@ -172,14 +120,6 @@ alias kbl="kubectl logs -f kP"
 #==========================================================
 #                                                    Docker
 #                                                    ======
-if ! command_exists docker; then
-    echo "intsall docker"
-    brew install docker
-fi
-if ! command_exists dockle; then
-    echo "intsall dockle"
-    brew install goodwithtech/r/dockle
-fi
 alias -g dP='`docker ps -a | rmheader | peco | awk '\''{print $1}'\''`'
 alias -g dI='`docker images | rmheader | peco | awk '\''{print $3}'\''`'
 alias -g dV='`docker volume ls | rmheader | peco | awk '\''{print $2}'\''`'
@@ -193,21 +133,12 @@ alias dkprn='docker system prune --all --volumes'
 #==========================================================
 #                                                Color diff
 #                                                ==========
-if ! command_exists colordiff; then
-    echo "intsall colordiff"
-    brew install colordiff
-fi
 alias diff='colordiff -u'
 alias diffy='colordiff -y --suppress-common-lines'
 
 #==========================================================
 #                                                      tree
 #                                                      ====
-if ! command_exists tree; then
-    echo "intsall tree"
-    brew install tree
-fi
-
 function setTitle() {
     echo -e "\033];$1\007"
 }
@@ -219,22 +150,10 @@ alias title=setTitle
 #---------------------------------------------
 #                                         java
 #                                         ----
-if ! command_exists java; then
-    echo "intsall jdk"
-    brew install openjdk
-fi
-# if [ ! -f /Library/Java/JavaVirtualMachines/openjdk.jdk ]; then
-#     echo "Create a link to jdk. Please enter your password."
-#     sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
-# fi
 export JAVA_HOME=`/usr/libexec/java_home -v 15`
 #---------------------------------------------
 #                                       groovy
 #                                       ------
-if ! command_exists groovy; then
-    echo "intsall groovy"
-    brew install groovy
-fi
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 #==========================================================
@@ -245,30 +164,8 @@ export VISUAL='vim'
 export PAGER='less'
 
 #==========================================================
-#                                                virtualbox
-#                                                ==========
-# https://shoji014.com/virtualbox-error/
-#if ! command_exists virtualbox; then
-#    echo "intsall virtualbox"
-#    brew cask install virtualbox
-#fi
-
-#==========================================================
-#                                                   vagrant
-#                                                   =======
-if ! command_exists vagrant; then
-    echo "intsall vagrant"
-    brew install vagrant --cask
-fi
-
-#==========================================================
 #                                                   ansible
 #                                                   =======
-if ! command_exists ansible; then
-    echo "intsall ansible"
-    brew install ansible
-fi
-
 if [ ! -f /etc/ansible/hosts ]; then
     sudo mkdir -p /etc/ansible
     cat <<EOF | sudo tee /etc/ansible/hosts >/dev/null
@@ -276,10 +173,6 @@ if [ ! -f /etc/ansible/hosts ]; then
 127.0.0.1 ansible_connection=local
 EOF
 fi
-
-# if ! command_exists sshpass; then
-#     brew install http://git.io/sshpass.rb
-# fi
 
 #==========================================================
 #                                                 Pipe util
@@ -316,3 +209,8 @@ function extract() {
 alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 
 source "${ZDOTDIR:-$HOME}/.zprezto/runcoms/.env"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/guchey/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/guchey/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/guchey/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/guchey/google-cloud-sdk/completion.zsh.inc'; fi
