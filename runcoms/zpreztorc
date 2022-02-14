@@ -38,12 +38,9 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
-<<<<<<< HEAD
   'git' \
   'docker' \
-=======
   'history-substring-search' \
->>>>>>> ecaed1cfa7591d2304d7eb5d69b42b54961a7145
   'prompt'
 
 #
